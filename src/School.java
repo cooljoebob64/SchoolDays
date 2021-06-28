@@ -17,11 +17,9 @@ public class School
     //2. Look up by student, to get a list of all courses a student is taking.
     //We need to make data structures to make this possible.
     
-    //We are going to define them in a different place than usual.
-    //Instead of defining them in main, we are going to define them
-    //right here:
-    
-    //Define and initialize an empty map variable called "courses" where you
+    //We are going to define the enrollments as fields of School
+   
+    //Define and initialize an empty map variable called "courses" here where you
     //can lookup a course by it's name (key), and get a list of
     //students (value):    
     //TODO!
@@ -36,8 +34,8 @@ public class School
     
     //^^^^^^^^^^^ Define "students" above this line ^^^^^^^^^^^^^^^^^^^^^^^
     
-    //You should be able to access the variables you just defined from anywhere 
-    //inside this file.
+    //You should be able to access the fields you just defined from anywhere 
+    //inside this class.
     
     //Next we are going to define an "enroll" method.
     public void enroll(String courseName, String studentName)
