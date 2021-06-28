@@ -1,3 +1,11 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeMap;
+
 /* Welcome to an exercise to create a School enrollment system.
  * Go through the code in this file and read the comments to
  * see what is required....Everywhere there is a TODO!
@@ -23,14 +31,17 @@ public class School
     //can lookup a course by it's name (key), and get a list of
     //students (value):    
     //TODO!
-    
+    	
+	Map<String, ArrayList<String>> courses = new TreeMap<>();
+	
     //^^^^^^^^^^^ Define "courses" above this line ^^^^^^^^^^^^^^^^^^^^^^^
 
-    
     //Define and initialize a second empty map variable called "students" 
     //where you can lookup a student by their name (key), and get a list of
     //courses (value) they are taking:
-    //TODO!
+//    TODO!
+	
+    Map<String, ArrayList<String>> students = new TreeMap<>();
     
     //^^^^^^^^^^^ Define "students" above this line ^^^^^^^^^^^^^^^^^^^^^^^
     
@@ -49,6 +60,23 @@ public class School
         //Note: when a student enrolls in a course twice, it should 
         //detect this, and prevent duplicate enrollments.
         //TODO!               
+    	
+		if (!courses.containsKey(courseName)) {
+			courses.put(courseName, new ArrayList<String>());
+		}
+
+   	
+    	List<String> courseStudents = courses.get(courseName);
+    	if(courseStudents.contains(studentName)) {
+    		System.out.println(studentName + " is already enrolled in " + courseName + "!");
+    	} else {
+    		courseStudents.add(studentName);
+    		if(!students.containsKey(studentName)) {
+    			students.put(studentName, new ArrayList<String>());
+    		}
+    		students.get(studentName).add(courseName);
+    	}
+
     }
     
     public void drop(String courseName, String studentName)
@@ -66,6 +94,20 @@ public class School
         //     if a student now has zero courses they are 
         //     taking, drop the student from 'students'
         //TODO!        
+    	
+    	if(courses.containsKey(courseName)) {
+    		if(courses.get(courseName).contains(studentName)) {
+    			System.out.println("Removing " + studentName + " from the course: " + courseName);
+    			courses.get(courseName).remove(studentName);
+    			students.get(studentName).remove(courseName);
+    			if(courses.get(courseName).isEmpty()) {
+    				courses.remove(courseName);
+    			}
+    			if(students.get(studentName).isEmpty()) {
+    				students.remove(studentName);
+    			}
+    		}
+    	}
     }   
     
     public void printAllCourses()
@@ -81,6 +123,10 @@ public class School
         //Bonus: alphabetize the courses. (Look up Collections in
         //the java documentation)
         //TODO!        
+    	Set<String> courseNames = courses.keySet();
+    	for(String course : courseNames) {
+    		System.out.println(course + ", enrolled students: " + courses.get(course).size());
+    	}
     }
     
     public void printAllStudents()
@@ -90,6 +136,11 @@ public class School
         //       of courses the student is taking.
         //Bonus: alphabetize the student names.
         //TODO!        
+    	
+    	Set<String> studentNames = students.keySet();
+    	for(String student : studentNames) {
+    		System.out.println(student + " is taking " + students.get(student).size() + " course(s).");
+    	}
     }
     
     public void printStudentsInCourse(String course)
@@ -99,6 +150,18 @@ public class School
         //Bonus: Print nothing, rather than having an error
         //       if course does not exist
         //TODO!
+    	
+    	if(courses.containsKey(course)) {
+
+        	List<String> studentsInCourse = courses.get(course);
+    		if(!studentsInCourse.isEmpty()) {
+    			System.out.println("Students in course " + course);
+    			for(String student : studentsInCourse) {
+    				System.out.println(student);
+    			}
+    		} else System.out.println("No students in course " + course);
+    	}
+    	
     }
     
     public void printCoursesTakenByStudent(String student)
@@ -109,6 +172,16 @@ public class School
         //Bonus: Print nothing, rather than having an error
         //       if student does not exist
         //TODO!        
+    	
+    	if(students.containsKey(student)) {
+    		List<String> listOfCourses = students.get(student);
+    		if(!listOfCourses.isEmpty()) {
+    			System.out.println("List of courses for student " + student + ":"); 
+    			for(String course : listOfCourses) {
+    				System.out.println(course);
+    			}
+    		} else System.out.println("Student " + student + " has no courses.");
+    	}
     }
     
     //You won't need a main method, Test has a main method that calls
